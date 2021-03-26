@@ -1,5 +1,8 @@
-import matplotlib.pyplot as plt
+#!/usr/bin/env python3
+
+
 import numpy as np
+
 
 class Neuron():
     """ Class Neuron """
