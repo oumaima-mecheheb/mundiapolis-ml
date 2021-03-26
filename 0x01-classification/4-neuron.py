@@ -61,7 +61,7 @@ class Neuron():
                 1 - Y, np.log(1.0000001 - A)))
         return C
 
-        def evaluate(self, X, Y):
+    def evaluate(self, X, Y):
         """
         Returns: The neuron prediction and the cost
                 of the network
