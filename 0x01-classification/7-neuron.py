@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+class Neuron():
+    """ Class Neuron """
+
+    def __init__(self, nx): 
+        if type(nx) is not int:
+            raise TypeError("nx must be an integer")
+        if nx < 1:
+            raise ValueError("nx must be a positive integer")
+
+        self.__W = np.random.randn(nx).reshape(1, nx)  # Weight
+        self.__b = 0  # Bias
+        self.__A = 0  # output
+
+    @property
+    def W(self):
+        """
+        Returns: private instance weight
+        """
+        return self.__W
+
+    @property
+    def b(self):
+        """
+        Returns: private instance bias
+        """
+        return self.__b
+
+    @property
+    def A(self):
+        """
+        Returns: private instance output
+        """
+        return self.__A
+
+    def forward_prop(self, X):
+        """
+        Function of forward propagation
+        activated by a sigmoid function
+        """
+        x = np.matmul(self.__W, X) + self.__b  
+        sigmoid = 1 / (1 + np.exp(-x))  # g(x) = 1 / (1 + e^{-x})
+        self.__A = sigmoid
+        return self.__A
+
+    def cost(self, Y, A):
+        """
+        Calculates the cost of the model using logistic regression
+
+        """
+
+        m = Y.shape[1]
+        C = - (1 / m) * np.sum(
+            np.multiply(
+                Y, np.log(A)) + np.multiply(
+                1 - Y, np.log(1.0000001 - A)))
+        return C
+
+    def evaluate(self, X, Y):
+        """
+        Returns: The neuron prediction and the cost
+                of the network
+        """
+
+        self.forward_prop(X)
+        cost = self.cost(Y, self.__A)
+        prediction = np.where(self.__A >= 0.5, 1, 0)  # broadcasting
+        return prediction, cost
+
+    def gradient_descent(self, X, Y, A, alpha=0.05):
+        """
+        Returns: gradient descent bias + adjusted weights
+        """
+
+        m = Y.shape[1]
+        dz = A - Y  # derivative z
+        dW = np.matmul(X, dz.T) / m  # grad of the loss with respect to w
+        db = np.sum(dz) / m  # grad of the loss with respect to b
+        self.__W -= (alpha * dW).T
+        self.__b -= alpha * db
+    
+    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+        """
+        Returns: output optimized and cost of training
+        """
+
+        if type(iterations) is not int:
+            raise TypeError("iterations must be an integer")
+        if iterations < 0:
+            raise ValueError("iterations must be a positive integer")
+        if type(alpha) is not float:
+            raise TypeError("alpha must be a float")
+        if alpha < 0:
+            raise ValueError("alpha must be positive")
+
+        steps = 0
+        c_ax = np.zeros(iterations + 1)
+
+        for i in range(iterations + 1):
+            self.forward_prop(X)
+            cost = self.cost(Y, self.__A)
+            if (i == steps or i == iterations) and step:
+                print("Cost after {} iterations: {}".format(i, cost))
+                steps += step
+            if i < iterations:
+                self.gradient_descent(X, Y, self.__A, alpha)
+            if graph is True:
+                c_ax[i] = cost
+        if graph is True:
+            plt.title("Training Cost")
+            plt.xlabel("iteration")
+            plt.ylabel("cost")
+            plt.plot(np.arange(0, iterations + 1), c_ax)
+            plt.show()
+        return self.evaluate(X, Y)
