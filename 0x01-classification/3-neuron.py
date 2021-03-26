@@ -6,10 +6,7 @@ class Neuron():
     """ Class Neuron """
 
     def __init__(self, nx):
-        """
-        Args:
-            nx: Type int the number of n inputs into the ANN
-        """
+        
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
         if nx < 1:
@@ -45,8 +42,8 @@ class Neuron():
         Function of forward propagation
         activated by a sigmoid function
         """
-        x = np.matmul(self.__W, X) + self.__b  # z (sum of weight and X's)
-        sigmoid = 1 / (1 + np.exp(-x))  # (σ): g(z) = 1 / (1 + e^{-z})
+        x = np.matmul(self.__W, X) + self.__b 
+        sigmoid = 1 / (1 + np.exp(-x))  # g(x) = 1 / (1 + e^{-x})
         self.__A = sigmoid
         return self.__A
 
@@ -62,15 +59,3 @@ class Neuron():
                 Y, np.log(A)) + np.multiply(
                 1 - Y, np.log(1.0000001 - A)))
         return C
-
-Neuron = __import__('3-neuron').Neuron
-
-lib_train = np.load('C:/Users/lenovo/Desktop/OumaimaI/ml/0x01-classification/data/Binary_Train.npz')
-X_3D, Y = lib_train['X'], lib_train['Y']
-X = X_3D.reshape((X_3D.shape[0], -1)).T
-
-np.random.seed(0)
-neuron = Neuron(X.shape[0])
-A = neuron.forward_prop(X)
-cost = neuron.cost(Y, A)
-print(cost)
