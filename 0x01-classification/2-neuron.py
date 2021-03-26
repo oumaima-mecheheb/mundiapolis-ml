@@ -2,14 +2,11 @@
 
 import numpy as np
 
+
 class Neuron():
     """ Class Neuron """
 
     def __init__(self, nx):
-        """
-        Args:
-            nx: Type int the number of n inputs into the ANN
-        """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
         if nx < 1:
@@ -49,16 +46,3 @@ class Neuron():
         sigmoid = 1 / (1 + np.exp(-x))  # (σ): g(z) = 1 / (1 + e^{-z})
         self.__A = sigmoid
         return self.__A
-
-Neuron = __import__('2-neuron').Neuron
-
-lib_train = np.load('C:/Users/lenovo/Desktop/OumaimaI/ml/0x01-classification/data/Binary_Train.npz')
-X_3D, Y = lib_train['X'], lib_train['Y']
-X = X_3D.reshape((X_3D.shape[0], -1)).T
-
-np.random.seed(0)
-neuron = Neuron(X.shape[0])
-neuron._Neuron__b = 1
-A = neuron.forward_prop(X)
-if (A is neuron.A):
-        print(A)
