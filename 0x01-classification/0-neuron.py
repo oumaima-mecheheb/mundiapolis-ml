@@ -3,14 +3,15 @@
 import numpy as np
 
 
-class Neuron:
-   """ Class Neuron """
-   
+class Neuron():
+    """ Class Neuron """
+
     def __init__(self, nx):
-        if not isinstance(nx, int):
-            raise TypeError('nx must be an integer')
+        if type(nx) is not int:
+            raise TypeError("nx must be an integer")
         if nx < 1:
-            raise ValueError('nx must be a positive integer')
-        self.W = np.random.normal(0, 1, (1, nx)) # Weight
-        self.b = 0 # Bias
-        self.A = 0 # Output
+            raise ValueError("nx must be a positive integer")
+
+        self.__W = np.random.randn(nx).reshape(1, nx)  # Weight
+        self.__b = 0  # Bias
+        self.__A = 0  # output
