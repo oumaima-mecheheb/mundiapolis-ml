@@ -42,7 +42,7 @@ class Neuron():
         Function of forward propagation
         activated by a sigmoid function
         """
-        x = np.matmul(self.__W, X) + self.__b  # z (sum of weight and X's)
-        sigmoid = 1 / (1 + np.exp(-x))  # (σ): g(z) = 1 / (1 + e^{-z})
+        x = np.matmul(self.__W, X) + self.__b  
+        sigmoid = 1 / (1 + np.exp(-x))  # g(x) = 1 / (1 + e^{-x})
         self.__A = sigmoid
         return self.__A
