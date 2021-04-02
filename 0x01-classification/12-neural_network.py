@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 class NeuralNetwork():
     """ Class neural network"""
 
@@ -102,16 +103,3 @@ class NeuralNetwork():
         prediction = np.where(self.__A2 >= 0.5, 1, 0)
         cost = self.cost(Y, self.__A2)
         return prediction, cost
-
-
-NN = __import__('12-neural_network').NeuralNetwork
-
-lib_train = np.load('C:/Users/lenovo/Desktop/OumaimaI/ml/0x01-classification/data/Binary_Train.npz')
-X_3D, Y = lib_train['X'], lib_train['Y']
-X = X_3D.reshape((X_3D.shape[0], -1)).T
-
-np.random.seed(0)
-nn = NN(X.shape[0], 3)
-A, cost = nn.evaluate(X, Y)
-print(A)
-print(cost)
