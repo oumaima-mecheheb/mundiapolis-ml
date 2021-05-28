@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tensorflow.keras as K
 
 
@@ -9,8 +11,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
             activations: list containing the activation
                          functions in each layer.
             lambtha: the L2 regularization parameter.
-            keep_prob: the probability that a node will
-                       be kept for Dropout regularization.
+            keep_prob: the probability that a node
         Returns:
             the keras model.
     """
